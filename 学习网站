@@ -1,0 +1,179 @@
+inux 教程（偏实战）- judasn/Linux-Tutorial
+
+地址： https://github.com/judasn/Linux-Tutorial
+
+为什么推荐： 这个仓库的名字叫《Java 程序员眼中的 Linux》，但其实非常适合所有新手。它不教你枯燥的内核原理，而是教你**“怎么装软件”、“怎么配网络”、“怎么查日志”**这些最常用的干货。
+
+重点看： Ubuntu安装、常用命令、Shell脚本 章节。
+
+Linux 交互式练习 - labex-labs/linux-free-tutorials
+
+地址： https://github.com/labex-labs/linux-free-tutorials
+
+为什么推荐： 这是一个**“练手型”**仓库。它列出了 200 多个小实验（Lab），比如“建立一个文件”、“配置一个 Web 服务器”。如果你不知道该练什么，就照着它的目录做。
+
+Shell 脚本大全 - dunwu/linux-tutorial
+
+地址： https://github.com/dunwu/linux-tutorial
+
+为什么推荐： 它的 docs/linux/shell 目录下有很多现成的脚本。你可以试着读懂它们，比如“一键查看内存占用”、“自动清理日志”的脚本是怎么写的。
+
+
+
+Docker 官方实战案例 - docker/awesome-compose
+
+地址： https://github.com/docker/awesome-compose
+
+为什么推荐： 这是含金量最高的一个仓库。 里面有几十个现成的 docker-compose.yml 文件。
+
+怎么玩（项目实战）：
+
+找到 official-documentation-samples/wordpress/ 文件夹。
+
+里面就是我刚才说的 Nginx + MySQL + WordPress 的标准架构。
+
+你把代码下载下来，运行 docker compose up -d，一个网站就跑起来了。
+
+学习任务： 阅读那个 .yml 文件，搞懂每一行代码（端口映射、环境变量、挂载卷）是什么意思。
+
+
+
+项目一：搭建一个高颜值的服务器监控面板 —— Uptime Kuma
+这是目前最火的轻量级监控工具。它不像 Prometheus 那么复杂，非常适合新手建立“监控”的概念。
+
+GitHub 地址： https://github.com/louislam/uptime-kuma
+
+项目性质： 监控工具（类似“服务器看门狗”）。
+
+你需要做的事（实战步骤）：
+
+部署： 使用 Docker 一行命令把它跑起来。
+
+配置探针： 在后台添加你要监控的目标（比如百度、你的路由器后台、或者另一台虚拟机的 IP）。
+
+模拟故障： 比如手动把另一台虚拟机断网，看 Uptime Kuma 会不会变红。
+
+配置告警： 绑定你的 Telegram、钉钉或企业微信，让它在服务器挂掉时发消息给你。
+
+运维核心技能点：
+
+服务可用性检测（HTTP/TCP/Ping 原理）。
+
+Webhook 回调（由机器向钉钉发消息的原理）。
+
+Docker 挂载卷（如何让监控数据不丢失）。
+
+项目二：搭建企业级自动化运维平台 —— Spug
+如果你想知道“大公司的运维平时都在什么平台上点点点”，就玩这个。Spug 是国内开源的轻量级运维平台，文档全中文，对新手极度友好。
+
+Gitee 地址（国内访问快）： https://gitee.com/openspug/spug
+
+GitHub 地址： https://github.com/openspug/spug
+
+项目性质： 堡垒机 + 自动化发布 + 资产管理（CMDB）。
+
+你需要做的事（实战步骤）：
+
+环境准备： 它需要 Docker + Redis + MariaDB，你需要编写一个 docker-compose.yml 来编排这三个服务。
+
+主机纳管： 在 Spug 界面里，通过 SSH 密钥连接你的虚拟机，实现“免密登录”。
+
+任务执行： 在网页上写一个 Shell 命令（比如 df -h），点击“执行”，它会自动去你的虚拟机上跑并把结果传回来。
+
+运维核心技能点：
+
+SSH 协议与密钥管理（公钥/私钥）。
+
+CMDB（配置管理数据库）概念。
+
+批量执行脚本的逻辑。
+
+项目三：搭建日志分析系统 —— Docker-ELK
+运维最怕什么？怕出 Bug 找不到日志。ELK (Elasticsearch, Logstash, Kibana) 是业界处理日志的标准架构。虽然很难，但我们可以从现成的 Docker 镜像入手。
+
+GitHub 地址： https://github.com/deviantony/docker-elk
+
+项目性质： 日志收集与可视化平台。
+
+你需要做的事（实战步骤）：
+
+启动全家桶： Clone 这个仓库，运行 docker-compose up。
+
+理解流程： 这是一个典型的“管道”系统。
+
+Logstash（收集）：你需要配置它去读你的系统日志 /var/log/messages。
+
+Elasticsearch（存储）：存数据的地方。
+
+Kibana（展示）：你需要登录网页，配置一个图表，搜索日志里的关键词（比如 "error"）。
+
+运维核心技能点：
+
+日志的生命周期。
+
+中间件的配置与通信。
+
+
+
+1. 经典中文教程（打基础必看）
+这两个网站是国内运维圈的“圣经”，绝大多数运维工程师都是看这两个入行的。
+
+鸟哥的 Linux 私房菜
+
+地址： http://linux.vbird.org/
+
+特点： 运维界的“九阳神功”。内容极其详尽，从电脑硬件结构讲到 Linux 核心原理。
+
+怎么用： 网站风格比较老旧，但内容不过时。作为 0 基础，重点看**《基础学习篇》**。如果你觉得太厚看不下去，可以只看它的目录，当做字典查。
+
+Linux 就该这么学 (LinuxProbe)
+
+地址： https://www.linuxprobe.com/
+
+特点： 偏向考证和实战。相比鸟哥的理论性，这个网站更直接，它是基于 RHEL/CentOS 系统的，每一章都有具体的实验（比如“配置网卡”、“搭建文件服务器”），非常适合跟着做。
+
+菜鸟教程 (Runoob) - Linux 专栏
+
+地址： https://www.runoob.com/linux/linux-tutorial.html
+
+特点： 像字典一样简单。如果你只想快速知道 ls 或者 grep 命令怎么用，不用去看长篇大论，直接来这里搜，全是精简的例子。
+
+2. 在线交互式练习（不用装虚拟机也能练）
+如果你现在手边没有虚拟机，或者想利用碎片时间练习，用这些网站。它们在网页里给你提供了一个“假终端”，直接在浏览器里敲命令。
+
+Linux Survival (Linux 生存指南)
+
+地址： https://linuxsurvival.com/
+
+特点： 这是一个游戏化的学习网站。它把 Linux 学习分成了 4 个模块，屏幕左边是教程，右边是黑色终端。你必须敲对命令，才能进入下一关。非常适合 0 基础建立信心。
+
+Webminal
+
+地址： https://www.webminal.org/
+
+特点： 提供免费的在线 Linux 终端。你注册后，可以在网页里直接练习编写 Shell 脚本、管理文件，甚至还要配合 MySQL 数据库做练习。
+
+Killercoda (强烈推荐用于 DevOps)
+
+地址： https://killercoda.com/
+
+特点： DevOps 实战神器。它提供了现成的 Kubernetes、Docker、Linux 场景。不需要你自己买服务器，点开就是一个配置好的环境，特别适合后面学 Docker 和 K8s。
+
+
+运维 (DevOps) 进阶与路线图
+Roadmap.sh (开发者路线图)
+
+地址： https://roadmap.sh/devops
+
+特点： 就是你刚才发的那张图的交互网页版。
+
+怎么用： 它是目前全球最权威的技术路线图。点进去每一个方块（比如 "Docker"），它会弹窗告诉你这个技术是什么、有什么推荐的免费教程。
+
+DigitalOcean 社区教程
+
+地址： https://www.digitalocean.com/community/tutorials
+
+特点： 虽然是英文（可以用翻译插件），但它的**“实战部署教程”**是全世界写得最好的。
+
+场景： 比如你想搜“怎么在 Ubuntu 上装 Nginx”，它的教程不仅步骤清晰，还会告诉你每一步为什么要这么做。
+系统资源的压力测试（因为 ELK 非常吃内存，你的计算机会变得很卡，你需要学会如何限制它的资源占用）。
