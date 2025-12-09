@@ -1,1 +1,109 @@
+linux的基础指令：
+
+文件：
+ls ：查看文件，使用方法
+ls 列出当前目录下的文件。
+ls -l：以列表形式显示详细信息（权限、大小、时间）。
+ls -a：显示所有文件（包括隐藏文件，即以 . 开头的文件）。
+ll：这通常是 ls -l 的缩写（别名）。
+
+cd (Change Directory) - 切换目录
+cd /home：进入 /home 目录。
+cd ..：返回上一级目录。
+cd ~：回到当前用户的家目录。
+
+pwd (Print Working Directory) - 我在哪？
+显示当前所在的完整路径。
+
+mkdir (Make Directory) - 新建文件夹
+mkdir data：新建一个叫 data 的文件夹。
+mkdir -p a/b/c：级联创建目录（如果 a 和 b 不存在，会自动创建）。
+
+touch - 新建空文件
+touch index.html：创建一个空的 index.html 文件（或者更新文件的时间戳）。
+
+cp (Copy) - 复制
+cp file1.txt file2.txt：把 file1 复制一份叫 file2。
+cp -r folder1 folder2：复制文件夹（必须加 -r，代表 recursive 递归）。
+
+mv (Move) - 移动 或 重命名
+mv file1.txt /tmp/：把文件移到 /tmp 目录。
+mv old.txt new.txt：把 old.txt 改名为 new.txt（原地移动就是重命名）。
+
+rm (Remove) - 删除 (慎用！)
+rm file.txt：删除文件。
+rm -rf folder：强制删除文件夹及其内容（-r递归，-f强制不询问）。
+⚠️ 警告：Linux 没有回收站，删了通常就找不回来了！
+
+二、 查看与搜索文件内容
+
+cat - 查看全部内容
+cat file.txt：一次性把文件内容全部打印在屏幕上（适合小文件）。
+
+less - 分页查看
+less log.txt：适合大文件。可以用键盘上下键滚动，按 q 退出。
+
+tail - 看尾部
+tail -n 10 file.txt：查看文件最后 10 行。（-n 则是提示linux系统使用的是行，在tail中可以省略）
+tail -f log.txt：实时监控文件尾部的新增内容（看服务器日志的神器）。按 Ctrl + C 退出。
+
+grep - 搜索文本
+grep "error" log.txt：在 log.txt 中查找包含 "error" 的行。
+
+三、 系统状态与进程
+
+ps (Process Status) - 查看进程
+ps aux 或 ps -ef：列出当前运行的所有进程。通常配合 grep 使用，例如：ps -ef | grep nginx（查找 nginx 进程）。|的意识：管道将上一个的输出结果输入下一个指令
+ps aux 则是BSD风格，特点是前面不需要加-，（常用来查找卡顿）a：all所有用户的进程
+u (User)：以用户为主的格式来显示详细信息：
+这就是为什么用 aux 能看到 %CPU（CPU占比）、%MEM（内存占比）、STAT（状态）等列。
+x：显示没有控制终端的进程。比如在后台默默运行的服务（Daemon），它们不属于任何一个终端窗口，必须加上 x 才能看到。
+ps -ef (查父子关系最常用)（僵尸进程）
+这个组合是标准的 POSIX 写法，最常用于查看进程间的父子关系（谁启动了谁）。
+-e (Every)：显示所有进程。
+它的作用等同于 aux 中的 a + x。
+-f (Full)：全格式显示。
+它会显示 UID, PID, PPID 等信息。
+关键点：ps -ef 会显示 PPID (Parent Process ID，父进程 ID)，这在排查“是谁把这个进程启动起来的”时候非常有用。
+
+top / htop - 任务管理器
+实时显示 CPU、内存占用情况。htop 是 top 的增强版，界面更友好（如果已安装）。
+
+kill - 结束进程
+kill <PID>：根据进程 ID（PID）结束进程。
+kill -9 <PID>：强制杀死进程。
+
+df (Disk Free) - 磁盘空间
+df -h：以人类可读的方式（G/M）显示磁盘剩余空间。（-h则是以hunman的缩写）
+
+free - 内存使用
+free -h：查看内存和 Swap 使用情况。
+
+权限与用户：
+
+sudo (SuperUser Do) - 以管理员身份运行
+在任何命令前加 sudo，表示用 root 权限执行。例如：sudo apt install git。
+
+chmod (Change Mode) - 修改权限
+chmod +x script.sh：给文件加上可执行权限。：+x则是可运行的权限
+chmod 777 file：给所有人所有权限（慎用）。
+
+chown (Change Owner) - 修改拥有者
+chown user:group file：改变文件的拥有者。
+
+压缩与解压
+Linux 最常用的压缩格式是 .tar.gz。
+解压：tar -zxvf filename.tar.gz
+记法：z (gzip), x (extract 解压), v (verbose 显示过程), f (file 文件)。
+压缩：tar -czvf filename.tar.gz folder/
+记法：把 x 换成 c (create 创建)。
+
+不会用某个命令？输入 man ls 查看说明书（按 q 退出）
+
+操作系统内核定义好的（写在代码里的）。系统里有一张“信号表”，给每个信号都编了号。
+其中：
+1 号 是 SIGHUP（挂起，通常用于重读配置文件）
+2 号 是 SIGINT（中断，相当于你在键盘按 Ctrl+C）
+15 号 是 SIGTERM（终止，这是 kill 的默认信号）
+9 号 是 SIGKILL（强制杀死）
 
